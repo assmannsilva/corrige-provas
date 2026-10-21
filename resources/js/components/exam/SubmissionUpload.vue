@@ -31,9 +31,10 @@ const props = defineProps<{
 
 type UploadItem = { file: File; preview?: string };
 
-const form = useForm<{ files: File[]; student_name: string }>({
+const form = useForm<{ files: File[]; student_name: string; student_class: string }>({
     files: [],
     student_name: '',
+    student_class: '',
 });
 const nameModalOpen = ref(false);
 const fileError = computed(
@@ -222,6 +223,7 @@ const submit = (): void => {
     }
 
     form.student_name = form.student_name.trim();
+    form.student_class = form.student_class.trim();
 
     if (!form.student_name) {
         form.setError('student_name', 'Informe o nome do aluno.');
@@ -417,6 +419,17 @@ const submit = (): void => {
                             :disabled="form.processing"
                         />
                         <InputError :message="form.errors.student_name" />
+                    </div>
+                    <div class="space-y-2">
+                        <Label for="submission-student-class">Turma (opcional)</Label>
+                        <Input
+                            id="submission-student-class"
+                            v-model="form.student_class"
+                            maxlength="255"
+                            autocomplete="off"
+                            :disabled="form.processing"
+                        />
+                        <InputError :message="form.errors.student_class" />
                         <InputError :message="fileError" />
                     </div>
                     <DialogFooter>

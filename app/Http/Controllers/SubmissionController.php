@@ -40,6 +40,7 @@ class SubmissionController extends Controller
 
         $validated = $request->validate([
             'student_name' => ['required', 'string', 'max:255'],
+            'student_class' => ['nullable', 'string', 'max:255'],
             'files' => ['required', 'array', 'min:1', 'max:50'],
             'files.*' => ['required', 'file', 'mimes:pdf,jpeg,png,webp', 'max:51200'],
         ]);
@@ -47,7 +48,9 @@ class SubmissionController extends Controller
         /** @var list<UploadedFile> $files */
         $files = $request->file('files');
 
-        $this->submissionService->create($exam, $files, trim($validated['student_name']));
+        $class = isset($validated['student_class']) ? trim($validated['student_class']) : null;
+
+        $this->submissionService->create($exam, $files, trim($validated['student_name']), $class ?: null);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Envio realizado.')]);
 
