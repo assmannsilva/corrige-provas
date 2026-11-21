@@ -27,15 +27,16 @@ class SubmissionService
      *
      * @param  list<UploadedFile>  $files
      */
-    public function create(Exam $exam, array $files, string $studentName): Submission
+    public function create(Exam $exam, array $files, string $studentName, ?string $studentClass = null): Submission
     {
         $directory = null;
 
         try {
-            $submission = DB::transaction(function () use ($exam, $files, $studentName, &$directory) {
+            $submission = DB::transaction(function () use ($exam, $files, $studentName, $studentClass, &$directory) {
                 $submission = $this->submissionRepository->create([
                     'exam_id' => $exam->id,
                     'student_name' => $studentName,
+                    'student_class' => $studentClass,
                     'status' => SubmissionStatus::Uploaded,
                     'submitted_at' => now(),
                 ]);

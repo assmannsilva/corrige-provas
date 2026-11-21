@@ -51,6 +51,20 @@ test('a teacher can upload a pdf submission', function () {
     Queue::assertPushed(ProcessSubmissionComputerVisionJob::class);
 });
 
+test('a teacher can optionally identify the class while uploading', function () {
+    Queue::fake();
+    $file = UploadedFile::fake()->create('exam.pdf', 100, 'application/pdf');
+
+    $this->post(route('exams.submissions.store', $this->exam), [
+        'student_name' => 'Aluno Exemplo',
+        'student_class' => ' 9º Ano B ',
+        'files' => [$file],
+    ])->assertRedirect();
+
+    expect(Submission::first()->student_name)->toBe('Aluno Exemplo');
+    expect(Submission::first()->student_class)->toBe('9º Ano B');
+});
+
 test('a failed submission upload leaves no orphan files', function () {
     Queue::fake();
 
