@@ -518,6 +518,16 @@ test('submission requires a valid manually entered name', function (mixed $name)
     Queue::assertNothingPushed();
 })->with([[null], [''], ['   '], [str_repeat('a', 256)], [['invalid']]]);
 
+test('student name cannot be replaced by blank input', function () {
+    $submission = Submission::factory()->create(['exam_id' => $this->exam->id, 'student_name' => 'Aluno Original']);
+
+    $this->patch(route('submissions.student.update', $submission), [
+        'student_name' => '   ',
+    ])->assertSessionHasErrors('student_name');
+
+    expect($submission->refresh()->student_name)->toBe('Aluno Original');
+});
+
 test('another teacher cannot reprocess or rename a submission', function () {
     Queue::fake();
     $submission = Submission::factory()->create(['exam_id' => $this->exam->id]);

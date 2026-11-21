@@ -39,7 +39,7 @@ class SubmissionController extends Controller
         $this->authorize('submit', $exam);
 
         $validated = $request->validate([
-            'student_name' => ['required', 'string', 'max:255'],
+            'student_name' => ['required', 'string', 'max:255', 'not_regex:/^\s*$/'],
             'student_class' => ['nullable', 'string', 'max:255'],
             'files' => ['required', 'array', 'min:1', 'max:50'],
             'files.*' => ['required', 'file', 'mimes:pdf,jpeg,png,webp', 'max:51200'],
@@ -104,7 +104,7 @@ class SubmissionController extends Controller
         $this->authorize('update', $submission);
 
         $validated = $request->validate([
-            'student_name' => ['required', 'string', 'max:255'],
+            'student_name' => ['required', 'string', 'max:255', 'not_regex:/^\s*$/'],
             'student_class' => ['nullable', 'string', 'max:255'],
         ]);
 
