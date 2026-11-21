@@ -14,36 +14,15 @@ As versões exatas das dependências estão em `composer.lock`, `package-lock.js
 
 ## Instalação
 
-Na raiz do repositório, configure o `.env` para usar o MySQL do Docker:
+Tenha Docker Engine, Docker Compose v2 e GNU Make instalados. Na raiz do repositório, execute:
 
 ```bash
-cp .env.example .env
+make all
 ```
 
-Ajuste estas variáveis no arquivo `.env`:
+Na primeira execução, o Makefile cria automaticamente o `.env` com a configuração de MySQL e Redis do Docker, constrói as imagens, instala as dependências, gera a chave da aplicação, executa as migrations, compila o frontend, inicia os serviços e prepara a conta de professor.
 
-```dotenv
-APP_URL=http://localhost:8080
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=tcc
-DB_USERNAME=tcc
-DB_PASSWORD=secret
-REDIS_HOST=redis
-COMPUTER_VISION_SERVICE_URL=http://python:8000
-QUEUE_CONNECTION=database
-DB_QUEUE_RETRY_AFTER=360
-REDIS_QUEUE_RETRY_AFTER=360
-```
-
-Depois execute:
-
-```bash
-make setup
-```
-
-O comando constrói as imagens Docker, inicia MySQL e Redis, instala as dependências, configura a chave da aplicação, executa as migrations, compila o frontend e inicia os serviços. Ao final, cria uma conta de professor de demonstração e mostra as credenciais no terminal.
+**Se o `.env` já existir, ele será preservado integralmente.** Nesse caso, confira se as configurações de banco e Redis apontam para os serviços do Docker (`DB_HOST=mysql`, `REDIS_HOST=redis`), pois o Makefile não modifica configurações existentes.
 
 Acesse **http://localhost:8080**. O Chromium já faz parte da imagem PHP e é utilizado na geração das provas em PDF.
 
@@ -51,26 +30,38 @@ As credenciais de banco presentes no Compose são destinadas ao desenvolvimento 
 
 ### Conta de professor para demonstração
 
-O `make setup` cria automaticamente um professor com o e-mail `professor@example.test` e uma **senha aleatória**, exibida no terminal. Anote a senha para entrar na aplicação.
+O `make all` cria uma conta de professor com estas credenciais:
 
-Para criar a conta posteriormente ou redefinir sua senha, execute:
+| Campo | Valor |
+| --- | --- |
+| Nome | Professor de Demonstração |
+| E-mail | `professor@example.test` |
+| Senha | `password` |
 
-```bash
-make teacher
-```
+A senha é armazenada com hash pelo Laravel. O comando `make teacher` cria ou atualiza essa mesma conta, sem duplicá-la, e redefine a senha para `password`. A conta só pode ser criada em ambientes `local` ou `testing` e **não deve ser utilizada em produção**.
 
-O comando atualiza a mesma conta, sem criar duplicatas. A cada execução, uma nova senha é gerada e exibida. A criação da conta de demonstração é permitida apenas nos ambientes `local` e `testing`.
+### Comandos Make
 
-Outros comandos úteis:
+| Comando | Ação |
+| --- | --- |
+| `make all` | Prepara o ambiente completo e cria o professor |
+| `make setup` | Alias de `make all` |
+| `make env` | Cria o `.env` para Docker/MySQL somente se não existir |
+| `make build` | Constrói as imagens Docker |
+| `make install` | Instala dependências Composer e NPM |
+| `make up` | Inicia os contêineres |
+| `make down` | Encerra os contêineres, preservando os volumes |
+| `make restart` | Reinicia os contêineres |
+| `make migrate` | Executa as migrations |
+| `make migrate-fresh` | Recria as tabelas após confirmação; apaga os dados |
+| `make teacher` | Cria ou redefine a conta do professor |
+| `make assets` | Compila o frontend |
+| `make test` | Executa os testes Laravel |
+| `make lint` | Verifica a formatação PHP e frontend |
+| `make logs` | Acompanha os logs |
+| `make ps` | Lista os contêineres |
 
-```bash
-make up       # Inicia os serviços
-make down     # Encerra os serviços
-make test     # Executa os testes Laravel
-make lint     # Verifica formatação e lint
-make build    # Compila o frontend
-make logs     # Acompanha os logs
-```
+Execute `make help` para consultar os comandos no terminal.
 
 ## Configuração da IA
 

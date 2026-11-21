@@ -2,22 +2,21 @@
 
 use App\Models\User;
 use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Artisan;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Artisan::command('demo:teacher', function (): void {
+Artisan::command('demo:teacher', function (): int {
     if (! app()->environment(['local', 'testing'])) {
         $this->error('Demo accounts can only be created in a local environment.');
 
-        return;
+        return 1;
     }
 
     $email = 'professor@example.test';
-    $password = Str::password(20);
+    $password = 'password';
 
     User::query()->updateOrCreate(
         ['email' => $email],
@@ -31,5 +30,7 @@ Artisan::command('demo:teacher', function (): void {
     $this->info('Conta de demonstração pronta.');
     $this->line("E-mail: {$email}");
     $this->line("Senha: {$password}");
-    $this->warn('Guarde a senha. Executar novamente este comando gera uma nova senha.');
+    $this->warn('Conta exclusiva para demonstração local. Não utilize esta senha em produção.');
+
+    return 0;
 })->purpose('Create or reset a local demonstration teacher account');
