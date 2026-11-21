@@ -56,7 +56,6 @@ A senha é armazenada com hash pelo Laravel. O comando `make teacher` cria ou at
 | `make migrate-fresh` | Recria as tabelas após confirmação; apaga os dados |
 | `make teacher` | Cria ou redefine a conta do professor |
 | `make assets` | Compila o frontend |
-| `make test` | Executa os testes Laravel |
 | `make lint` | Verifica a formatação PHP e frontend |
 | `make logs` | Acompanha os logs |
 | `make ps` | Lista os contêineres |
@@ -101,33 +100,6 @@ O Laravel coordena os envios, a autorização e as filas. O serviço Python alin
 A identificação digitada no envio permanece nos registros locais da submissão. Entretanto, se o próprio aluno escrever dados pessoais dentro do espaço destinado à resposta, esse conteúdo pode integrar o recorte enviado ao provedor. Para demonstrações e testes, utilize avaliações fictícias.
 
 Os documentos e recortes são armazenados em `storage/app/private`. A aplicação não possui política automática de exclusão por prazo, portanto a retenção precisa ser gerenciada por quem opera a instalação.
-
-## Testes e qualidade
-
-Os testes automatizados utilizam dados sintéticos e não precisam de uma chave válida do OpenRouter.
-
-Com os serviços Docker disponíveis:
-
-```bash
-docker compose run --rm php php artisan test --compact
-docker compose run --rm php composer types:check
-docker compose run --rm php composer lint:check
-docker compose run --rm php npm run lint:check
-docker compose run --rm php npm run format:check
-docker compose run --rm php npm run types:check
-docker compose run --rm php npm run build
-```
-
-Para executar os testes do serviço Python em um ambiente virtual com Python 3.12:
-
-```bash
-python3.12 -m venv .venv
-. .venv/bin/activate
-pip install -r docker/python/requirements.txt pytest httpx
-python -m pytest python/tests -q
-```
-
-A suíte PHP usa SQLite em memória. Verifique se a extensão `pdo_sqlite` está disponível no ambiente utilizado para os testes.
 
 ## Diagnóstico
 
