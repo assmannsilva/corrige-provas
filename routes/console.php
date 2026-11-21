@@ -30,7 +30,7 @@ Artisan::command('demo:teacher', function (): int {
     $this->info('Conta de demonstração pronta.');
     $this->line("E-mail: {$email}");
     $this->line("Senha: {$password}");
-    $this->warn('Conta exclusiva para demonstração local. Não utilize esta senha em produção.');
+    $this->warn('Conta de demonstração local.');
 
     return 0;
 })->purpose('Create or reset a local demonstration teacher account');

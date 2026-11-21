@@ -1,12 +1,11 @@
 SHELL := /bin/sh
 .DEFAULT_GOAL := help
 
-.PHONY: help all setup env build infra install key migrate migrate-fresh teacher up down restart assets test lint logs ps
+.PHONY: help setup env build infra install key migrate migrate-fresh teacher up down restart assets test lint logs ps
 
 help:
 	@printf '%s\n' \
-		'make all           - instala, configura e inicia o projeto' \
-		'make setup         - alias de make all' \
+		'make setup         - instala, configura e inicia o projeto' \
 		'make env           - cria o .env para Docker/MySQL se estiver ausente' \
 		'make build         - constrói as imagens Docker' \
 		'make install       - instala dependências Composer e NPM' \
@@ -22,9 +21,7 @@ help:
 		'make logs          - acompanha os logs' \
 		'make ps            - lista os contêineres'
 
-all: env build infra install key migrate assets up teacher
-
-setup: all
+setup: env build infra install key migrate assets up teacher
 
 env:
 	@if [ -f .env ]; then \

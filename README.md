@@ -17,7 +17,7 @@ As versões exatas das dependências estão em `composer.lock`, `package-lock.js
 Tenha Docker Engine, Docker Compose v2 e GNU Make instalados. Na raiz do repositório, execute:
 
 ```bash
-make all
+make setup
 ```
 
 Na primeira execução, o Makefile cria automaticamente o `.env` com a configuração de MySQL e Redis do Docker, constrói as imagens, instala as dependências, gera a chave da aplicação, executa as migrations, compila o frontend, inicia os serviços e prepara a conta de professor.
@@ -30,7 +30,7 @@ As credenciais de banco presentes no Compose são destinadas ao desenvolvimento 
 
 ### Conta de professor para demonstração
 
-O `make all` cria uma conta de professor com estas credenciais:
+O `make setup` cria uma conta de professor com estas credenciais:
 
 | Campo | Valor |
 | --- | --- |
@@ -38,14 +38,13 @@ O `make all` cria uma conta de professor com estas credenciais:
 | E-mail | `professor@example.test` |
 | Senha | `password` |
 
-A senha é armazenada com hash pelo Laravel. O comando `make teacher` cria ou atualiza essa mesma conta, sem duplicá-la, e redefine a senha para `password`. A conta só pode ser criada em ambientes `local` ou `testing` e **não deve ser utilizada em produção**.
+A senha é armazenada com hash pelo Laravel. O comando `make teacher` cria ou atualiza essa mesma conta, sem duplicá-la, e redefine a senha para `password`. A conta só pode ser criada em ambientes `local` ou `testing`.
 
 ### Comandos Make
 
 | Comando | Ação |
 | --- | --- |
-| `make all` | Prepara o ambiente completo e cria o professor |
-| `make setup` | Alias de `make all` |
+| `make setup` | Prepara o ambiente completo e cria o professor |
 | `make env` | Cria o `.env` para Docker/MySQL somente se não existir |
 | `make build` | Constrói as imagens Docker |
 | `make install` | Instala dependências Composer e NPM |
@@ -100,7 +99,3 @@ O Laravel coordena os envios, a autorização e as filas. O serviço Python alin
 A identificação digitada no envio permanece nos registros locais da submissão. Entretanto, se o próprio aluno escrever dados pessoais dentro do espaço destinado à resposta, esse conteúdo pode integrar o recorte enviado ao provedor. Para demonstrações e testes, utilize avaliações fictícias.
 
 Os documentos e recortes são armazenados em `storage/app/private`. A aplicação não possui política automática de exclusão por prazo, portanto a retenção precisa ser gerenciada por quem opera a instalação.
-
-## Diagnóstico
-
-Confira o estado dos contêineres com `docker compose ps`. Para acompanhar a extração e a correção, consulte `docker compose logs --tail=100 worker python`. Para problemas na geração do PDF, verifique também os logs dos serviços `php` e `nginx`.
