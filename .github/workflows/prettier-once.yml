@@ -1,0 +1,34 @@
+name: Format Vue files once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/prettier-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Apply repository Prettier configuration
+        run: npm run format
+      - name: Commit formatted sources
+        run: |
+          git config user.name "Caue Assmann Silva"
+          git config user.email "caueassmannsilva114@gmail.com"
+          git add resources/
+          if ! git diff --cached --quiet; then
+            git commit -m "style: format Vue components with Prettier"
+            git push origin HEAD:main
+          fi
