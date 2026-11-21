@@ -14,13 +14,13 @@ As versões exatas das dependências estão em `composer.lock`, `package-lock.js
 
 ## Instalação
 
-Na raiz do repositório:
+Na raiz do repositório, configure o `.env` para usar o MySQL do Docker:
 
 ```bash
 cp .env.example .env
 ```
 
-Ajuste estas variáveis no `.env` para usar os serviços do Docker:
+Ajuste estas variáveis no arquivo `.env`:
 
 ```dotenv
 APP_URL=http://localhost:8080
@@ -37,42 +37,40 @@ DB_QUEUE_RETRY_AFTER=360
 REDIS_QUEUE_RETRY_AFTER=360
 ```
 
-Em seguida, prepare a aplicação:
+Depois execute:
 
 ```bash
-docker compose build
-docker compose up -d --wait mysql redis
-docker compose run --rm php composer install --no-interaction --prefer-dist
-docker compose run --rm php php artisan key:generate
-docker compose run --rm php php artisan migrate --no-interaction
-docker compose run --rm -e PUPPETEER_SKIP_DOWNLOAD=true php npm ci
-docker compose run --rm php npm run build
-docker compose up -d
+make setup
 ```
+
+O comando constrói as imagens Docker, inicia MySQL e Redis, instala as dependências, configura a chave da aplicação, executa as migrations, compila o frontend e inicia os serviços. Ao final, cria uma conta de professor de demonstração e mostra as credenciais no terminal.
 
 Acesse **http://localhost:8080**. O Chromium já faz parte da imagem PHP e é utilizado na geração das provas em PDF.
 
 As credenciais de banco presentes no Compose são destinadas ao desenvolvimento local. Não exponha essas portas a redes externas sem configurar autenticação e isolamento apropriados.
 
-### Conta de professor
+### Conta de professor para demonstração
 
-O projeto não cria uma conta de acesso automaticamente. Para cadastrar um usuário no ambiente local, execute:
+O `make setup` cria automaticamente um professor com o e-mail `professor@example.test` e uma **senha aleatória**, exibida no terminal. Anote a senha para entrar na aplicação.
+
+Para criar a conta posteriormente ou redefinir sua senha, execute:
 
 ```bash
-docker compose exec php php artisan tinker
+make teacher
 ```
 
-No Tinker, informe nome, e-mail e uma senha de sua escolha:
+O comando atualiza a mesma conta, sem criar duplicatas. A cada execução, uma nova senha é gerada e exibida. A criação da conta de demonstração é permitida apenas nos ambientes `local` e `testing`.
 
-```php
-$user = new App\Models\User;
-$user->name = 'Professor';
-$user->email = 'professor@example.test';
-$user->password = Illuminate\Support\Facades\Hash::make('SENHA-LOCAL-AQUI');
-$user->save();
+Outros comandos úteis:
+
+```bash
+make up       # Inicia os serviços
+make down     # Encerra os serviços
+make test     # Executa os testes Laravel
+make lint     # Verifica formatação e lint
+make build    # Compila o frontend
+make logs     # Acompanha os logs
 ```
-
-Depois, saia com `exit` e acesse a aplicação. O endereço `example.test` é apenas ilustrativo.
 
 ## Configuração da IA
 

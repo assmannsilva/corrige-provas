@@ -15,8 +15,7 @@ class QuestionController extends Controller
 {
     public function __construct(
         private readonly QuestionService $questionService,
-    ) {
-    }
+    ) {}
 
     private function authorizeExamQuestion(Exam $exam, ?Question $question = null): void
     {

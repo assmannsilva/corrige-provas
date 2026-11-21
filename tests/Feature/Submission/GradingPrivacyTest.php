@@ -5,6 +5,7 @@ use App\Models\Question;
 use App\Models\Submission;
 use App\Models\SubmissionAnswer;
 use App\Support\Grading\Graders\EssayGrader;
+use App\Support\Grading\GradingClient;
 use Illuminate\Support\Facades\Http;
 
 test('essay grading excludes local student identification', function () {
@@ -50,7 +51,7 @@ test('grading uses the configured model override', function () {
         'choices' => [['message' => ['content' => '{"score":1,"feedback":"OK","needs_review":false}']]],
     ])]);
 
-    app(\App\Support\Grading\GradingClient::class)->grade('Critérios', 'Resposta');
+    app(GradingClient::class)->grade('Critérios', 'Resposta');
 
     Http::assertSent(fn ($request) => $request['model'] === 'custom/model');
 });
