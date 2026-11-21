@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 
 Artisan::command('inspire', function () {
@@ -21,7 +22,7 @@ Artisan::command('demo:teacher', function (): int {
     $teacher = User::query()->firstOrNew(['email' => $email]);
     $teacher->name = 'Professor de Demonstração';
     $teacher->password = $password;
-    $teacher->email_verified_at = now();
+    $teacher->email_verified_at = Carbon::now();
     $teacher->save();
 
     $this->info('Conta de demonstração pronta.');
