@@ -18,14 +18,11 @@ Artisan::command('demo:teacher', function (): int {
     $email = 'professor@example.test';
     $password = 'password';
 
-    User::query()->updateOrCreate(
-        ['email' => $email],
-        [
-            'name' => 'Professor de Demonstração',
-            'password' => $password,
-            'email_verified_at' => now(),
-        ],
-    );
+    $teacher = User::query()->firstOrNew(['email' => $email]);
+    $teacher->name = 'Professor de Demonstração';
+    $teacher->password = $password;
+    $teacher->email_verified_at = now();
+    $teacher->save();
 
     $this->info('Conta de demonstração pronta.');
     $this->line("E-mail: {$email}");
