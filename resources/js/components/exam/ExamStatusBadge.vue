@@ -5,7 +5,9 @@ defineProps<{
     status: string;
 }>();
 
-const variant = (status: string): 'default' | 'secondary' | 'outline' | 'destructive' => {
+const variant = (
+    status: string,
+): 'default' | 'secondary' | 'outline' | 'destructive' => {
     switch (status) {
         case 'draft':
             return 'secondary';

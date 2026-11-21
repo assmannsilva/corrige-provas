@@ -15,7 +15,8 @@ const emit = defineEmits<{
 }>();
 
 const options = (): Option[] => {
-    const raw = (props.modelValue.options as Partial<Option>[] | undefined) ?? [];
+    const raw =
+        (props.modelValue.options as Partial<Option>[] | undefined) ?? [];
 
     return raw.map((o) => ({
         text: (o.text as string) ?? '',
@@ -46,7 +47,9 @@ const removeOption = (index: number) => {
 
 <template>
     <div class="space-y-3">
-        <p class="text-xs text-muted-foreground">Marque todas as opções corretas.</p>
+        <p class="text-xs text-muted-foreground">
+            Marque todas as opções corretas.
+        </p>
 
         <div class="space-y-2">
             <div
@@ -59,7 +62,9 @@ const removeOption = (index: number) => {
                     class="shrink-0"
                     @update:model-value="setCorrect(idx, $event === true)"
                 />
-                <span class="w-5 shrink-0 text-center text-xs font-medium text-muted-foreground">
+                <span
+                    class="w-5 shrink-0 text-center text-xs font-medium text-muted-foreground"
+                >
                     {{ String.fromCharCode(65 + idx) }}
                 </span>
                 <Input

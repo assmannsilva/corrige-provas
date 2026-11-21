@@ -141,9 +141,7 @@ const submitQuestion = () => {
 
 const onTypeChange = (value: string) => {
     questionForm.type = value;
-    const typeDef = props.questionTypes.find(
-        (qt) => qt.identifier === value,
-    );
+    const typeDef = props.questionTypes.find((qt) => qt.identifier === value);
     questionForm.metadata = { ...(typeDef?.default_metadata ?? {}) };
 
     if (value !== 'essay') {

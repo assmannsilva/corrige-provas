@@ -9,13 +9,20 @@ defineProps<{
 
 <template>
     <div v-if="variant === 'table' || !variant" class="space-y-2">
-        <div v-for="i in (rows ?? 5)" :key="i" class="flex items-center gap-4">
+        <div v-for="i in rows ?? 5" :key="i" class="flex items-center gap-4">
             <Skeleton class="h-5 w-full" />
         </div>
     </div>
 
-    <div v-else-if="variant === 'card'" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <div v-for="i in (rows ?? 3)" :key="i" class="rounded-lg border p-4 space-y-3">
+    <div
+        v-else-if="variant === 'card'"
+        class="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+    >
+        <div
+            v-for="i in rows ?? 3"
+            :key="i"
+            class="space-y-3 rounded-lg border p-4"
+        >
             <Skeleton class="h-5 w-3/4" />
             <Skeleton class="h-4 w-1/2" />
             <Skeleton class="h-8 w-24" />

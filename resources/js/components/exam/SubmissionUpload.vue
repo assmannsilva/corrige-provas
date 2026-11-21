@@ -31,7 +31,11 @@ const props = defineProps<{
 
 type UploadItem = { file: File; preview?: string };
 
-const form = useForm<{ files: File[]; student_name: string; student_class: string }>({
+const form = useForm<{
+    files: File[];
+    student_name: string;
+    student_class: string;
+}>({
     files: [],
     student_name: '',
     student_class: '',
@@ -421,7 +425,9 @@ const submit = (): void => {
                         <InputError :message="form.errors.student_name" />
                     </div>
                     <div class="space-y-2">
-                        <Label for="submission-student-class">Turma (opcional)</Label>
+                        <Label for="submission-student-class"
+                            >Turma (opcional)</Label
+                        >
                         <Input
                             id="submission-student-class"
                             v-model="form.student_class"

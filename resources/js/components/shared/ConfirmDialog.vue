@@ -26,14 +26,21 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <Dialog :open="open" @update:open="(val: boolean) => !val && emit('cancel')">
+    <Dialog
+        :open="open"
+        @update:open="(val: boolean) => !val && emit('cancel')"
+    >
         <DialogContent>
             <DialogHeader>
                 <DialogTitle>{{ title }}</DialogTitle>
                 <DialogDescription>{{ description }}</DialogDescription>
             </DialogHeader>
             <DialogFooter>
-                <Button variant="outline" :disabled="processing" @click="emit('cancel')">
+                <Button
+                    variant="outline"
+                    :disabled="processing"
+                    @click="emit('cancel')"
+                >
                     Cancelar
                 </Button>
                 <Button

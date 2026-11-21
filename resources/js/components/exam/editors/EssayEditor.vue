@@ -37,7 +37,9 @@ const update = (key: string, value: unknown) => {
                 :model-value="(modelValue.expected_answer as string) ?? ''"
                 placeholder="Resposta esperada para correção"
                 rows="3"
-                @update:model-value="update('expected_answer', $event as string)"
+                @update:model-value="
+                    update('expected_answer', $event as string)
+                "
             />
         </div>
     </div>

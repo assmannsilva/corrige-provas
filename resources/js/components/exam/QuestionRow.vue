@@ -29,13 +29,22 @@ const emit = defineEmits<{
     <div class="flex items-start justify-between rounded-lg border p-3">
         <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2">
-                <span class="text-xs text-muted-foreground">#{{ question.order + 1 }}</span>
-                <span class="text-xs font-medium text-muted-foreground">{{ typeLabel }}</span>
+                <span class="text-xs text-muted-foreground"
+                    >#{{ question.order + 1 }}</span
+                >
+                <span class="text-xs font-medium text-muted-foreground">{{
+                    typeLabel
+                }}</span>
             </div>
-            <p class="mt-1 whitespace-pre-wrap text-sm font-medium">
-                {{ question.statement.replace(/\[\[.*?\]\]/gs, '_____') || 'Questão sem título' }}
+            <p class="mt-1 text-sm font-medium whitespace-pre-wrap">
+                {{
+                    question.statement.replace(/\[\[.*?\]\]/gs, '_____') ||
+                    'Questão sem título'
+                }}
             </p>
-            <p class="mt-0.5 text-xs text-muted-foreground">{{ question.weight }} pts</p>
+            <p class="mt-0.5 text-xs text-muted-foreground">
+                {{ question.weight }} pts
+            </p>
         </div>
         <DropdownMenu>
             <DropdownMenuTrigger as-child>

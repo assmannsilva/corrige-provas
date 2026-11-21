@@ -12,7 +12,8 @@ import { email } from '@/routes/password';
 defineOptions({
     layout: {
         title: 'Esqueceu a senha',
-        description: 'Informe seu e-mail para receber o link de redefinição de senha',
+        description:
+            'Informe seu e-mail para receber o link de redefinição de senha',
     },
 });
 

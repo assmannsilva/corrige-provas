@@ -34,7 +34,9 @@ const emit = defineEmits<{
                 >
                     {{ exam.title }}
                 </Link>
-                <div class="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
+                <div
+                    class="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground"
+                >
                     <ExamStatusBadge :status="exam.status" />
                     <span>{{ exam.questions_count ?? 0 }} questões</span>
                     <span>{{ exam.total_points }} pts</span>

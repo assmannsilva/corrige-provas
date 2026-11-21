@@ -37,7 +37,9 @@ const emit = defineEmits<{
                 :model-value="instructions"
                 placeholder="Digite as instruções da prova para os alunos"
                 rows="4"
-                @update:model-value="emit('update:instructions', $event as string)"
+                @update:model-value="
+                    emit('update:instructions', $event as string)
+                "
             />
             <InputError :message="errors?.instructions" />
         </div>

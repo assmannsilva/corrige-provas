@@ -58,7 +58,11 @@ const emit = defineEmits<{
                     <td class="px-4 py-2.5 text-right">
                         <DropdownMenu>
                             <DropdownMenuTrigger as-child>
-                                <Button variant="ghost" size="icon" class="size-8">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    class="size-8"
+                                >
                                     <MoreHorizontal class="size-4" />
                                 </Button>
                             </DropdownMenuTrigger>
@@ -69,7 +73,10 @@ const emit = defineEmits<{
                                         Ver
                                     </Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem v-if="exam.status === 'draft'" as-child>
+                                <DropdownMenuItem
+                                    v-if="exam.status === 'draft'"
+                                    as-child
+                                >
                                     <Link :href="`/exams/${exam.id}/edit`">
                                         <Pencil class="mr-2 size-4" />
                                         Editar

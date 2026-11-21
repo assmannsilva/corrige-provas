@@ -3,11 +3,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { FileText, Menu } from '@lucide/vue';
 import AppLogo from '@/components/AppLogo.vue';
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -21,9 +17,7 @@ import { getInitials } from '@/composables/useInitials';
 const page = usePage();
 const auth = computed(() => page.props.auth);
 
-const navItems = [
-    { title: 'Provas', href: '/exams', icon: FileText },
-];
+const navItems = [{ title: 'Provas', href: '/exams', icon: FileText }];
 </script>
 
 <template>
@@ -51,7 +45,10 @@ const navItems = [
             <div class="ml-auto flex items-center gap-2">
                 <DropdownMenu>
                     <DropdownMenuTrigger as-child>
-                        <Button variant="ghost" class="relative size-8 rounded-full">
+                        <Button
+                            variant="ghost"
+                            class="relative size-8 rounded-full"
+                        >
                             <Avatar class="size-8">
                                 <AvatarImage
                                     v-if="auth.user?.avatar"

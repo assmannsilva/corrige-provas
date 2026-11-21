@@ -56,27 +56,38 @@ const onSearch = (value: string) => {
     search.value = value;
     if (searchTimer) clearTimeout(searchTimer);
     searchTimer = setTimeout(() => {
-        router.get(examsIndex(), {
-            search: value || undefined,
-            status: statusFilter.value !== 'all' ? statusFilter.value : undefined,
-        }, {
-            preserveState: true,
-            preserveScroll: true,
-            replace: true,
-        });
+        router.get(
+            examsIndex(),
+            {
+                search: value || undefined,
+                status:
+                    statusFilter.value !== 'all'
+                        ? statusFilter.value
+                        : undefined,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true,
+            },
+        );
     }, 300);
 };
 
 const onStatusChange = (value: string) => {
     statusFilter.value = value;
-    router.get(examsIndex(), {
-        search: search.value || undefined,
-        status: value !== 'all' ? value : undefined,
-    }, {
-        preserveState: true,
-        preserveScroll: true,
-        replace: true,
-    });
+    router.get(
+        examsIndex(),
+        {
+            search: search.value || undefined,
+            status: value !== 'all' ? value : undefined,
+        },
+        {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true,
+        },
+    );
 };
 
 const deleteTarget = ref<Exam | null>(null);
@@ -98,7 +109,10 @@ const confirmDelete = () => {
     });
 };
 
-const isLoading = computed(() => page.props.errors != null && Object.keys(page.props.errors).length > 0);
+const isLoading = computed(
+    () =>
+        page.props.errors != null && Object.keys(page.props.errors).length > 0,
+);
 </script>
 
 <template>
@@ -122,7 +136,9 @@ const isLoading = computed(() => page.props.errors != null && Object.keys(page.p
 
         <div class="mt-4 flex flex-col gap-3 sm:flex-row">
             <div class="relative flex-1">
-                <Search class="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                <Search
+                    class="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground"
+                />
                 <Input
                     :model-value="search"
                     placeholder="Buscar provas..."
@@ -130,7 +146,10 @@ const isLoading = computed(() => page.props.errors != null && Object.keys(page.p
                     @update:model-value="onSearch"
                 />
             </div>
-            <Select :model-value="statusFilter" @update:model-value="onStatusChange">
+            <Select
+                :model-value="statusFilter"
+                @update:model-value="onStatusChange"
+            >
                 <SelectTrigger class="w-full sm:w-36">
                     <SelectValue placeholder="Status" />
                 </SelectTrigger>
@@ -147,7 +166,9 @@ const isLoading = computed(() => page.props.errors != null && Object.keys(page.p
             <LoadingSkeleton v-if="isLoading" variant="table" :rows="5" />
 
             <EmptyState
-                v-else-if="exams.data.length === 0 && !search && statusFilter === 'all'"
+                v-else-if="
+                    exams.data.length === 0 && !search && statusFilter === 'all'
+                "
                 title="Nenhuma prova ainda"
                 description="Crie sua primeira prova para começar."
                 action-label="Nova Prova"
@@ -180,7 +201,8 @@ const isLoading = computed(() => page.props.errors != null && Object.keys(page.p
                     class="mt-4 flex items-center justify-between"
                 >
                     <p class="text-sm text-muted-foreground">
-                        Mostrando {{ exams.from }} a {{ exams.to }} de {{ exams.total }}
+                        Mostrando {{ exams.from }} a {{ exams.to }} de
+                        {{ exams.total }}
                     </p>
                     <div class="flex gap-1">
                         <Button
@@ -192,10 +214,7 @@ const isLoading = computed(() => page.props.errors != null && Object.keys(page.p
                             :class="{ 'bg-muted': link.active }"
                             as-child
                         >
-                            <Link
-                                v-if="link.url"
-                                :href="link.url"
-                            >
+                            <Link v-if="link.url" :href="link.url">
                                 <span v-html="link.label" />
                             </Link>
                             <span v-else v-html="link.label" />
