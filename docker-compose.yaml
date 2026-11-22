@@ -15,11 +15,7 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
     working_dir: /var/www/html
-    command: >
-      sh -c "
-      chown -R www-data:www-data storage bootstrap/cache &&
-      php-fpm
-      "
+    command: php-fpm
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
       - GRADING_LLM_URL=${GRADING_LLM_URL:-https://openrouter.ai/api/v1/chat/completions}
@@ -38,6 +34,7 @@ services:
       dockerfile: docker/php/Dockerfile
     working_dir: /var/www/html
     command: php artisan queue:work --verbose --tries=3 --timeout=300
+    user: "33:33"
     restart: unless-stopped
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
@@ -57,6 +54,7 @@ services:
       dockerfile: docker/php/Dockerfile
     working_dir: /var/www/html
     command: sh -c "while true; do php artisan schedule:run --verbose --no-interaction; sleep 60; done"
+    user: "33:33"
     restart: unless-stopped
     environment:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}

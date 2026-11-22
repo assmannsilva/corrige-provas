@@ -48,4 +48,10 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
+COPY docker/php/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
 WORKDIR /var/www/html

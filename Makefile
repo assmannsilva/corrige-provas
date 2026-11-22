@@ -1,7 +1,7 @@
 SHELL := /bin/sh
 .DEFAULT_GOAL := help
 
-.PHONY: help setup env build infra install key migrate migrate-fresh teacher up down restart assets test lint logs ps
+.PHONY: help setup env build infra install key migrate migrate-fresh teacher up down restart assets test lint logs ps fix-perms
 
 help:
 	@printf '%s\n' \
@@ -19,9 +19,10 @@ help:
 		'make test          - executa os testes Laravel' \
 		'make lint          - verifica formatação e lint' \
 		'make logs          - acompanha os logs' \
-		'make ps            - lista os contêineres'
+		'make ps            - lista os contêineres' \
+		'make fix-perms     - corrige permissões de storage e cache'
 
-setup: env build infra install key migrate assets up teacher
+setup: env build infra install key migrate assets up teacher fix-perms
 
 env:
 	@if [ -f .env ]; then \
@@ -94,3 +95,6 @@ logs:
 
 ps:
 	docker compose ps
+
+fix-perms:
+	docker compose run --rm --no-deps php chown -R www-data:www-data storage bootstrap/cache
