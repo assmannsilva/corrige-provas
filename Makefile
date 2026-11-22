@@ -51,7 +51,7 @@ install:
 	docker compose run --rm -e PUPPETEER_SKIP_DOWNLOAD=true php npm ci
 
 key:
-	@if grep -q '^APP_KEY=$' .env; then \
+	@if grep -q '^APP_KEY=$$' .env; then \
 		docker compose run --rm php php artisan key:generate; \
 	else \
 		echo 'APP_KEY existente preservada.'; \
