@@ -4,6 +4,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
+import { initializeHttpExceptionToast } from '@/lib/httpExceptionToast';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Corrige Provas';
 
@@ -26,3 +27,4 @@ createInertiaApp({
 
 initializeTheme();
 initializeFlashToast();
+initializeHttpExceptionToast();
