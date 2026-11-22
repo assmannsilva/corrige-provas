@@ -1,4 +1,4 @@
-name: Format Vue files once
+name: Fix frontend style
 
 on:
   push:
@@ -21,14 +21,20 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Apply repository Prettier configuration
+      - name: Fix ESLint rules
+        run: npm run lint
+      - name: Apply Prettier
         run: npm run format
+      - name: Verify lint
+        run: npm run lint:check
+      - name: Verify formatting
+        run: npm run format:check
       - name: Commit formatted sources
         run: |
           git config user.name "Caue Assmann Silva"
           git config user.email "caueassmannsilva114@gmail.com"
           git add resources/
           if ! git diff --cached --quiet; then
-            git commit -m "style: format Vue components with Prettier"
+            git commit -m "style: fix frontend lint and formatting"
             git push origin HEAD:main
           fi
