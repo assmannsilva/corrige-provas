@@ -32,13 +32,13 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 import { expectedAnswersFor } from '@/composables/useExpectedAnswers';
-import exams, { index as examsIndex } from '@/routes/exams';
-import submissions from '@/routes/submissions';
 import type {
     Submission,
     SubmissionAnswer,
     SubmissionAnswerStatus,
 } from '@/types';
+import exams, { index as examsIndex } from '@/routes/exams';
+import submissions from '@/routes/submissions';
 
 defineOptions({
     layout: null,

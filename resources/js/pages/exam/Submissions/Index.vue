@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowLeft, TriangleAlert } from '@lucide/vue';
+import { computed } from 'vue';
+import SubmissionStatusBadge from '@/components/exam/SubmissionStatusBadge.vue';
+import EmptyState from '@/components/shared/EmptyState.vue';
+import PageHeader from '@/components/shared/PageHeader.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,12 +14,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import PageHeader from '@/components/shared/PageHeader.vue';
-import EmptyState from '@/components/shared/EmptyState.vue';
-import SubmissionStatusBadge from '@/components/exam/SubmissionStatusBadge.vue';
+import type { Exam, Submission } from '@/types';
 import exams, { index as examsIndex } from '@/routes/exams';
 import submissions from '@/routes/submissions';
-import type { Exam, Submission } from '@/types';
 
 defineOptions({
     layout: null,

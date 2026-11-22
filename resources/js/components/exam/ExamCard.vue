@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { MoreHorizontal, Pencil, Eye } from '@lucide/vue';
+import ExamStatusBadge from '@/components/exam/ExamStatusBadge.vue';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -8,7 +9,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import ExamStatusBadge from '@/components/exam/ExamStatusBadge.vue';
 import type { Exam } from '@/types';
 
 defineProps<{

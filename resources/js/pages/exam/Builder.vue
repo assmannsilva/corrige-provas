@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { Plus, Save, Send } from '@lucide/vue';
+import { ref, computed } from 'vue';
+import ExamDetailsForm from '@/components/exam/ExamDetailsForm.vue';
+import ExamStatusBadge from '@/components/exam/ExamStatusBadge.vue';
+import QuestionForm from '@/components/exam/QuestionForm.vue';
+import QuestionRow from '@/components/exam/QuestionRow.vue';
+import ConfirmDialog from '@/components/shared/ConfirmDialog.vue';
+import PageHeader from '@/components/shared/PageHeader.vue';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -11,14 +17,8 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
-import PageHeader from '@/components/shared/PageHeader.vue';
-import ConfirmDialog from '@/components/shared/ConfirmDialog.vue';
-import ExamDetailsForm from '@/components/exam/ExamDetailsForm.vue';
-import ExamStatusBadge from '@/components/exam/ExamStatusBadge.vue';
-import QuestionRow from '@/components/exam/QuestionRow.vue';
-import QuestionForm from '@/components/exam/QuestionForm.vue';
-import { index as examsIndex } from '@/routes/exams';
 import type { Exam, Question, QuestionTypeDefinition } from '@/types';
+import { index as examsIndex } from '@/routes/exams';
 
 defineOptions({
     layout: null,
@@ -36,9 +36,11 @@ const breadcrumbs = computed(() => {
         { title: 'Início', href: examsIndex() },
         { title: 'Provas', href: examsIndex() },
     ];
+
     if (isCreate.value) {
         return [...base, { title: 'Nova Prova', href: '/exams/create' }];
     }
+
     return [
         ...base,
         { title: props.exam!.title, href: `/exams/${props.exam!.id}` },
@@ -152,7 +154,11 @@ const onTypeChange = (value: string) => {
 const moveUp = (question: Question) => {
     const questions = [...(props.exam?.questions ?? [])];
     const idx = questions.findIndex((q) => q.id === question.id);
-    if (idx <= 0) return;
+
+    if (idx <= 0) {
+        return;
+    }
+
     [questions[idx - 1], questions[idx]] = [questions[idx], questions[idx - 1]];
     const orderedIds = questions.map((q) => q.id);
     useForm({ ordered_ids: orderedIds }).post(
@@ -164,7 +170,11 @@ const moveUp = (question: Question) => {
 const moveDown = (question: Question) => {
     const questions = [...(props.exam?.questions ?? [])];
     const idx = questions.findIndex((q) => q.id === question.id);
-    if (idx < 0 || idx >= questions.length - 1) return;
+
+    if (idx < 0 || idx >= questions.length - 1) {
+        return;
+    }
+
     [questions[idx], questions[idx + 1]] = [questions[idx + 1], questions[idx]];
     const orderedIds = questions.map((q) => q.id);
     useForm({ ordered_ids: orderedIds }).post(
@@ -181,7 +191,10 @@ const openDelete = (question: Question) => {
 };
 
 const confirmDelete = () => {
-    if (!deleteTarget.value) return;
+    if (!deleteTarget.value) {
+        return;
+    }
+
     deleting.value = true;
     useForm({}).delete(
         `/exams/${props.exam!.id}/questions/${deleteTarget.value.id}`,

@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { Plus, Search } from '@lucide/vue';
+import { ref, computed } from 'vue';
+import ExamCard from '@/components/exam/ExamCard.vue';
+import ExamTable from '@/components/exam/ExamTable.vue';
+import ConfirmDialog from '@/components/shared/ConfirmDialog.vue';
+import EmptyState from '@/components/shared/EmptyState.vue';
+import LoadingSkeleton from '@/components/shared/LoadingSkeleton.vue';
+import PageHeader from '@/components/shared/PageHeader.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -11,14 +17,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import PageHeader from '@/components/shared/PageHeader.vue';
-import EmptyState from '@/components/shared/EmptyState.vue';
-import LoadingSkeleton from '@/components/shared/LoadingSkeleton.vue';
-import ConfirmDialog from '@/components/shared/ConfirmDialog.vue';
-import ExamTable from '@/components/exam/ExamTable.vue';
-import ExamCard from '@/components/exam/ExamCard.vue';
-import { index as examsIndex } from '@/routes/exams';
 import type { Exam } from '@/types';
+import { index as examsIndex } from '@/routes/exams';
 
 defineOptions({
     layout: null,
@@ -54,7 +54,11 @@ let searchTimer: ReturnType<typeof setTimeout> | null = null;
 
 const onSearch = (value: string) => {
     search.value = value;
-    if (searchTimer) clearTimeout(searchTimer);
+
+    if (searchTimer) {
+        clearTimeout(searchTimer);
+    }
+
     searchTimer = setTimeout(() => {
         router.get(
             examsIndex(),
@@ -98,7 +102,10 @@ const openDelete = (exam: Exam) => {
 };
 
 const confirmDelete = () => {
-    if (!deleteTarget.value) return;
+    if (!deleteTarget.value) {
+        return;
+    }
+
     deleting.value = true;
     router.delete(`/exams/${deleteTarget.value.id}`, {
         preserveScroll: true,

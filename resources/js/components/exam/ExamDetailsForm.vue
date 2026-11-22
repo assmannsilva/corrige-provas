@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import InputError from '@/components/InputError.vue';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import InputError from '@/components/InputError.vue';
 
 defineProps<{
     title: string;
